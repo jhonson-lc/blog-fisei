@@ -13,5 +13,8 @@
     "turbo": "latest"
   },
   "packageManager": "pnpm@8.6.10",
-  "name": "fisei-blog"
+  "name": "fisei-blog",
+  "dependencies": {
+    "@s-ui/mono": "^2.39.0"
+  }
 }
