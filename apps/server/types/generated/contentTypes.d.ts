@@ -721,13 +721,15 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
+    title: Attribute.String & Attribute.Required;
     description: Attribute.Text &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
+        minLength: 120;
         maxLength: 200;
       }>;
-    slug: Attribute.UID<'api::article.article', 'title'>;
-    cover: Attribute.Media;
+    slug: Attribute.UID<'api::article.article', 'title'> & Attribute.Required;
+    cover: Attribute.Media & Attribute.Required;
     author: Attribute.Relation<
       'api::article.article',
       'manyToOne',
@@ -771,8 +773,8 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    name: Attribute.String;
-    avatar: Attribute.Media;
+    name: Attribute.String & Attribute.Required;
+    avatar: Attribute.Media & Attribute.Required;
     email: Attribute.String;
     articles: Attribute.Relation<
       'api::author.author',

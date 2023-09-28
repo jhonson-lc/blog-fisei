@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@strapi/plugin-graphql": "^4.0.5",
-    "fs-extra": "^10.0.0",
+    "@strapi/plugin-graphql": "^4.13.7",
+    "fs-extra": "^11.1.1",
     "lodash.set": "^4.3.2",
-    "mime-types": "^2.1.27",
+    "mime-types": "^2.1.35",
     "@strapi/strapi": "4.13.7",
     "@strapi/plugin-users-permissions": "4.13.7",
     "@strapi/plugin-i18n": "4.13.7",
@@ -28,8 +28,7 @@
     "template": "blog"
   },
   "engines": {
-    "node": ">=16.0.0 <=20.x.x",
-    "npm": ">=6.0.0"
+    "node": ">=16.0.0 <=20.x.x"
   },
   "license": "MIT"
 }
