@@ -15,7 +15,9 @@ const Avatar: React.FC<Props> = ({ name, picture, publishedAt }) => {
         <Image alt={name} className="rounded-full object-cover" fill={true} src={picture} />
       </div>
       <div className="flex flex-col">
-        <span className="font-medium text-white text-[9px] flex items-center">{name}</span>
+        <span className="font-medium text-neutral-100 dark:text-neutral-900 text-[9px] flex items-center">
+          {name}
+        </span>
         <span className="text-[10px] text-neutral-500 capitalize tracking-wide">
           {formatDate(publishedAt)}
         </span>
