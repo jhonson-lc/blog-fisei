@@ -20,7 +20,7 @@ const ThemeButton = () => {
 
   return (
     <button
-      className="text-yellow-500 dark:text-blue-500 hover:bg-yellow-500/10 dark:hover:bg-blue-500/10 focus:outline-none rounded-full absolute top-6 left-6 text-sm p-2.5"
+      className="text-yellow-500 dark:text-blue-500 hover:bg-yellow-500/10 dark:hover:bg-blue-500/10 focus:outline-none rounded-full absolute top-6 right-20 text-sm p-2.5"
       id="theme-toggle"
       type="button"
       onClick={toggleDarkMode}

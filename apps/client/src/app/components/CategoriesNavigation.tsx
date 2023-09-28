@@ -2,6 +2,7 @@
 import React from "react";
 import { useSearchCategory } from "../hooks/useSearchCategory";
 import classnames from "classnames";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   categories: [string];
@@ -18,6 +19,11 @@ const colors = [
 
 const Button = ({ title, onClick }: { title: string; onClick: () => void }) => {
   const colorRandom = colors[Math.floor(Math.random() * colors.length)];
+  const pathname = useSearchParams();
+
+  const isActive = (slug: string) => {
+    return pathname.get("category") === slug.toLowerCase();
+  };
 
   return (
     <button
@@ -27,7 +33,12 @@ const Button = ({ title, onClick }: { title: string; onClick: () => void }) => {
       )}
       onClick={onClick}
     >
-      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-white bg-black rounded-md group-hover:bg-opacity-0">
+      <span
+        className={classnames(
+          "relative px-5 py-2.5 transition-all ease-in duration-75 dark:bg-white bg-black rounded-md group-hover:bg-opacity-0",
+          isActive(title) && "bg-opacity-0",
+        )}
+      >
         {title}
       </span>
     </button>
