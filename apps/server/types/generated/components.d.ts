@@ -5,9 +5,10 @@ export interface SharedMedia extends Schema.Component {
   info: {
     displayName: 'Media';
     icon: 'file-video';
+    description: '';
   };
   attributes: {
-    file: Attribute.Media;
+    file: Attribute.Media & Attribute.Required;
   };
 }
 
@@ -58,7 +59,7 @@ export interface SharedSlider extends Schema.Component {
     description: '';
   };
   attributes: {
-    files: Attribute.Media;
+    files: Attribute.Media & Attribute.Required;
   };
 }
 
