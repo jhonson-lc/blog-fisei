@@ -16,12 +16,149 @@
   }
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 255, 255, 255;
+  }
+}
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @apply bg-black dark:bg-white;
+}
+
+
+/******************************************* 
+  Rich Text Styles
+*******************************************/ 
+
+/* Headers */
+.rich-text{
+  @apply text-sm tracking-wide;
+}
+
+.rich-text h1 {
+  @apply text-2xl font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+.rich-text h2 {
+  @apply text-xl font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+.rich-text h3 {
+  @apply text-lg font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+.rich-text h4 {
+  @apply text-base font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+.rich-text h5 {
+  @apply text-sm font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+.rich-text h6 {
+  @apply text-xs font-medium mb-4 dark:text-neutral-900 text-neutral-100;
+}
+
+/* Horizontal rules */
+.rich-text hr {
+  @apply border-gray-300 my-8 dark:border-gray-700;
+}
+
+.rich-text a {
+  @apply text-blue-500 underline;
+}
+
+/* Typographic replacements */
+.rich-text p {
+  @apply mb-4 indent-8 text-neutral-300 tracking-wider dark:text-neutral-600
+}
+
+/* Emphasis */
+.rich-text strong {
+  @apply font-bold;
+}
+
+.rich-text em {
+  @apply italic;
+}
+
+.rich-text del {
+  @apply line-through;
+}
+
+/* Blockquotes */
+.rich-text blockquote {
+  @apply border-l-4 border-yellow-400 my-4;
+}
+
+.rich-text blockquote p{
+  @apply italic text-sm pt-px pb-3.5 text-neutral-100 indent-5 dark:text-neutral-700;
+}
+
+/* Lists */
+.rich-text ul {
+  @apply list-disc pl-4 mb-4 text-neutral-300 dark:text-neutral-700;
+}
+
+.rich-text ol {
+  @apply list-decimal pl-4 mb-4 text-neutral-300 dark:text-neutral-700;
+}
+
+.rich-text li {
+  @apply mb-2;
+}
+
+.rich-text li > ul {
+  @apply list-disc pl-4 mb-2;
+}
+
+.rich-text li > ol {
+  @apply list-decimal pl-4 mb-2;
+}
+
+/* Code blocks */
+.rich-text pre {
+  @apply font-mono bg-gray-900 text-gray-100 rounded p-4 dark:bg-gray-100 dark:text-gray-900;
+}
+
+.rich-text code {
+  @apply font-mono bg-gray-900 text-gray-100 rounded px-2 dark:bg-gray-100 dark:text-gray-900;
+}
+
+/* Tables */
+.rich-text table {
+  @apply w-full border-collapse border-gray-300 my-6 dark:border-gray-700;
+}
+
+.rich-text th {
+  @apply bg-gray-900 text-left py-2 px-4 font-semibold border-b border-gray-300 dark:bg-gray-100 dark:border-gray-700;
+}
+
+.rich-text td {
+  @apply py-2 px-4 border-b border-gray-300 dark:bg-gray-100 dark:border-gray-700;
+}
+
+/* Images */
+.rich-text img {
+  @apply w-full object-cover rounded-xl my-6;
+}
+
+/* Custom containers */
+.rich-text .warning {
+  @apply bg-amber-100 border-amber-500 text-amber-700 px-4 py-2 rounded-lg mb-4;
+}
+
+/******************************************* 
+  React Slideshow Styles
+*******************************************/   
+
+.react-slideshow-container [aria-label="Previous Slide"] {
+  margin-left: 1rem;
+}
+
+.react-slideshow-container [aria-label="Next Slide"] {
+  margin-right: 1rem;
 }
