@@ -8,6 +8,7 @@ import { readingTimeOfBlog } from "./utils/helpers";
 import Search from "./components/Search";
 import React from "react";
 import CategoriesNavigation from "./components/CategoriesNavigation";
+import { URL_CLIENT } from "./config";
 
 export const formatDate = (date: Date) => {
   const day = date.getDate();
@@ -115,11 +116,23 @@ export default async function Home({
   return (
     <PageWrapper>
       <main className="mt-12 mx-auto max-w-screen-xl">
-        <div className="flex flex-col dark:border-neutral-700/20 border-white/20 border-b-2 py-6 px-16 mb-6 items-center gap-2">
+        <div className="flex relative flex-col dark:border-neutral-700/20 border-white/20 border-b-2 py-6 px-16 mb-6 items-center gap-2">
           <h2 className="text-9xl font-bold text-neutral-100 dark:text-neutral-900">BLOG</h2>
           <p className="text-lg uppercase tracking-widest font-semibold text-neutral-100 dark:text-neutral-900">
             Desarrollo asistido por software
           </p>
+          <section className="absolute bottom-6 right-0">
+            <a
+              className="text-xs border-2 border-white/20 bg-amber-400 text-black dark:border-black/20 rounded-md hover:bg-amber-600 hover:dark:bg-yellow-600/10 font-bold transition-all inline-flex px-2.5 py-1 items-center gap-2"
+              href={`${URL_CLIENT}/admin`}
+              referrerPolicy="no-referrer"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className="transition-transform">+</span>
+              Crear un nuevo post
+            </a>
+          </section>
         </div>
         <aside className="w-1/2 mx-auto">
           <Search />

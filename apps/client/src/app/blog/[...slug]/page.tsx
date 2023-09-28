@@ -33,7 +33,10 @@ const SingleBlog: NextPage<Props> = async ({ params }) => {
             <span className="bg-white text-neutral-700 dark:text-neutral-100 px-2.5 py-px rounded-md dark:bg-black">
               {name}
             </span>
-            <Link className="dark:text-neutral-900 text-neutral-100" href={`/?category=${name}`}>
+            <Link
+              className="dark:text-neutral-900 text-neutral-100"
+              href={`/?category=${name.toLowerCase()}`}
+            >
               <svg
                 fill="none"
                 height="24"

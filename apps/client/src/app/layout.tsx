@@ -2,6 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ThemeButton from "./components/ThemeButton";
+import Link from "next/link";
+import { URL_CLIENT } from "./config";
+import { icons } from "./icons";
 
 const inter = Inter({ subsets: ["latin"] });
 
