@@ -1,4 +1,11 @@
+import { getStrapiURL } from "@/app/utils/helpers";
 import { API_URL, URL_CLIENT } from "../app/config";
+import qs from "qs";
+
+export type BlogPagination = {
+  title: string;
+  slug: string;
+} | null;
 
 export type Blog = {
   id: string;
@@ -36,14 +43,42 @@ export type Blog = {
 };
 
 export const getBlogs = async () => {
-  const res = await fetch(
-    `${API_URL}/articles?populate[author][populate][0]=avatar&populate[cover][populate][1]=cover&populate[category][populate][2]=category`,
-    {
-      next: {
-        revalidate: 1,
+  const urlParamsObject = {
+    populate: {
+      cover: { fields: ["url"] },
+      author: { populate: "*" },
+      category: { fields: ["name"] },
+      blocks: {
+        populate: "*",
+        on: {
+          "shared.rich-text": {
+            populate: "*",
+          },
+          "shared.quote": {
+            populate: "*",
+          },
+          "shared.media": {
+            populate: "*",
+          },
+          "shared.slider": {
+            populate: "*",
+          },
+          "shared.video-embed": {
+            populate: "*",
+          },
+        },
       },
     },
-  );
+  };
+  const queryString = qs.stringify(urlParamsObject);
+  const requestUrl = `${getStrapiURL(`/articles${queryString ? `?${queryString}` : ""}`)}`;
+
+  const res = await fetch(requestUrl, {
+    next: {
+      revalidate: 1,
+    },
+  });
+
   if (!res.ok) {
     throw new Error("Something went wrong");
   }
@@ -67,6 +102,73 @@ export const getBlogs = async () => {
 
   return blogs;
 };
+
+export const getSingleBlog = async ({ slug }: { slug: string }) => {
+  const urlParamsObject = {
+    filters: { slug },
+    populate: {
+      cover: { fields: ["url"] },
+      author: { populate: "*" },
+      category: { fields: ["name"] },
+      blocks: {
+        populate: "*",
+        on: {
+          "shared.rich-text": {
+            populate: "*",
+          },
+          "shared.quote": {
+            populate: "*",
+          },
+          "shared.media": {
+            populate: "*",
+          },
+          "shared.slider": {
+            populate: "*",
+          },
+          "shared.video-embed": {
+            populate: "*",
+          },
+        },
+      },
+    },
+  };
+
+  const queryString = qs.stringify(urlParamsObject);
+  const requestUrl = `${getStrapiURL(`/articles${queryString ? `?${queryString}` : ""}`)}`;
+  const blogs = await getBlogs();
+
+  let previousBlog: BlogPagination = null;
+  let nextBlog: BlogPagination = null;
+
+  for (const single of blogs) {
+    if (single.slug === slug[0]) {
+      previousBlog = blogs[blogs.indexOf(single) - 1];
+      nextBlog = blogs[blogs.indexOf(single) + 1];
+    }
+  }
+
+  const singleBlog = await fetch(requestUrl, {
+    next: {
+      revalidate: 1,
+    },
+  });
+
+  if (!singleBlog.ok) {
+    throw new Error("Something wrong bad");
+  }
+
+  const { data } = await singleBlog.json();
+
+  const blog = data[0];
+
+  return {
+    data: blog,
+    previousBlog,
+    nextBlog,
+  };
+};
+
+export const getNextBlog = async ({ slug }: { slug: string }) => {};
 
 export const getImage = ({ cover }: { cover: Blog["attributes"]["cover"] }) => {
   return `${URL_CLIENT}${cover.data.attributes.url}`;
