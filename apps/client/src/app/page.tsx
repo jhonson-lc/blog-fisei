@@ -3,6 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import AllBlogs from "./components/AllBlogs";
 import Avatar from "./components/Avatar";
+import PageWrapper from "./components/PageWrapper";
+import { readingTimeOfBlog } from "./utils/helpers";
+import Search from "./components/Search";
+import React from "react";
+import CategoriesNavigation from "./components/CategoriesNavigation";
 
 export const formatDate = (date: Date) => {
   const day = date.getDate();
@@ -12,19 +17,28 @@ export const formatDate = (date: Date) => {
   return `${stringMonth} ${day}, ${getYear}`;
 };
 
-const BlogCard = ({ title, cover, author, slug, description, category }: Blog["attributes"]) => {
+const BlogCard = ({
+  title,
+  cover,
+  author,
+  slug,
+  description,
+  category,
+  blocks,
+  publishedAt,
+}: Blog["attributes"]) => {
   return (
     <article className="py-4 flex w-full gap-6">
       <div className="relative w-[50%]">
         <Image
           alt={title}
-          className="rounded-2xl mb-2 object-cover"
+          className="rounded-2xl border-white/10 dark:border-black/10 border-2 mb-2 object-cover"
           height={400}
           src={getImage({ cover: cover })}
           width={650}
         />
         <Link
-          className="absolute bg-white gap-0 rotate-45 top-4 right-4 text-8xl text-black inline-flex items-center justify-center h-10 w-10 rounded-full hover:scale-125 transition-transform cursor-pointer"
+          className="absolute bg-amber-500 hover:bg-amber-600 gap-0 rotate-45 top-4 right-4 text-8xl text-neutral-100 dark:text-neutral-900 inline-flex items-center justify-center h-10 w-10 rounded-full hover:scale-125 transition-transform cursor-pointer"
           href={`/blog/${slug}`}
         >
           <svg
@@ -46,37 +60,89 @@ const BlogCard = ({ title, cover, author, slug, description, category }: Blog["a
       </div>
       <div className="justify-between py-4 flex flex-col w-[50%]">
         <div>
-          <span className="text-[10px] font-medium mr-2 py-0.5 rounded text-purple-400">
+          <span className="text-[10px] font-medium mr-2 py-0.5 rounded text-amber-500">
             {category.data.attributes.name}
-            {" • "}5 min de lectura
+            {" • "}
+            {readingTimeOfBlog(blocks).readingTime} min
           </span>
-          <h2 className={`mb-4 text-4xl leading-snug font-semibold`}>{title}</h2>
-          <p className={`text-base opacity-50`}>{description}</p>
+          <h2
+            className={`mb-4 text-4xl leading-snug font-semibold text-neutral-100 dark:text-neutral-900`}
+          >
+            {title}
+          </h2>
+          <p className={`text-base opacity-50 text-neutral-100 dark:text-neutral-900`}>
+            {description}
+          </p>
         </div>
         <Avatar
           name={author.data.attributes.name}
           picture={getAvatar({ author: author })}
-          publishedAt={new Date()}
+          publishedAt={new Date(publishedAt)}
         />
       </div>
     </article>
   );
 };
 
-export default async function Home() {
-  const blogs = await getBlogs();
+export default async function Home({
+  searchParams: { search, category },
+}: {
+  searchParams: { search: string; category: string };
+}) {
+  const blogsRaw = await getBlogs();
+  const blogs = blogsRaw.slice(1);
+  console.log({
+    blogs,
+  });
+  const categories: [string] = blogsRaw.map((blog: any) => blog.category.data.attributes.name);
+
+  const multipleSearch = (array: [any]) => {
+    if (category) {
+      return array.filter((blog) =>
+        blog.category.data.attributes.name.toLowerCase().includes(category.toLowerCase()),
+      );
+    }
+    if (!search) return array;
+    return array.filter((blog) =>
+      Object.keys(blog).some((parameter) =>
+        blog[parameter].toString().toLowerCase().includes(search.toLowerCase()),
+      ),
+    );
+  };
+
+  const filteredBlogs: any = multipleSearch(search ? blogsRaw : blogs);
+
   return (
-    <main className="mt-12 mx-auto max-w-screen-xl">
-      <div className="flex flex-col border-t border-neutral-700 border-b py-6 px-16 mb-6 items-center gap-2">
-        <h2 className="text-9xl font-bold text-white">BLOG</h2>
-        <p className="text-lg uppercase tracking-widest font-semibold text-white">
-          Desarrollo asistido por software
-        </p>
-      </div>
-      <section className="flex w-full">
-        <BlogCard {...blogs[0]} />
-      </section>
-      <AllBlogs blogs={blogs} />
-    </main>
+    <PageWrapper>
+      <main className="mt-12 mx-auto max-w-screen-xl">
+        <div className="flex flex-col dark:border-neutral-700/20 border-white/20 border-b-2 py-6 px-16 mb-6 items-center gap-2">
+          <h2 className="text-9xl font-bold text-neutral-100 dark:text-neutral-900">BLOG</h2>
+          <p className="text-lg uppercase tracking-widest font-semibold text-neutral-100 dark:text-neutral-900">
+            Desarrollo asistido por software
+          </p>
+        </div>
+        <aside className="w-1/2 mx-auto">
+          <Search />
+        </aside>
+        <CategoriesNavigation categories={categories} />
+        {!search && (
+          <section className="flex w-full">
+            <BlogCard {...blogsRaw[0]} />
+          </section>
+        )}
+        {filteredBlogs.length > 0 ? (
+          <AllBlogs blogs={filteredBlogs} />
+        ) : (
+          <section className="flex flex-col py-48 gap-1">
+            <span className="text-4xl text-center font-bold text-neutral-100 dark:text-neutral-900">
+              Oops!
+            </span>
+            <h2 className="text-xl text-center font-medium text-neutral-100 dark:text-neutral-900">
+              No se encontraron blogs
+            </h2>
+          </section>
+        )}
+      </main>
+    </PageWrapper>
   );
 }
