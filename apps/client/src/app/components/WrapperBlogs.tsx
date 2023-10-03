@@ -28,6 +28,18 @@ const Blogs = styled.div`
 
   @media (max-width: 768px) {
     gap: 15px 0;
+    grid-template-columns: 1fr 1fr;
+
+    .image-gallery:nth-of-type(5n - 4) {
+      grid-column: span 1;
+    }
+    .image-gallery:nth-of-type(5n - 3) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .image-gallery:nth-of-type(5n - 1) {
+      grid-column: span 1;
+    }
   }
 `;
 

@@ -27,8 +27,8 @@ const SingleBlog: NextPage<Props> = async ({ params }) => {
 
   return (
     <PageWrapper>
-      <section className="flex max-h-[95vh] h-screen justify-center p-6 m-4 border-neutral-700 dark:border-neutral-300 items-center border-2 rounded-2xl overflow-hidden">
-        <section className="w-[35%] p-6 border-r h-full border-dashed dark:border-neutral-500 border-neutral-100/50">
+      <section className="flex md:max-h-[95vh] md:flex-row flex-col md:h-screen justify-center p-2 md:p-6 m-4 border-neutral-700 dark:border-neutral-300 items-center border-2 rounded-2xl md:overflow-hidden">
+        <section className="w-full md:w-[35%] p-6 border-r h-full border-dashed dark:border-neutral-500 border-neutral-100/50">
           <div className="flex items-center justify-between">
             <span className="bg-white text-neutral-700 dark:text-neutral-100 px-2.5 py-px rounded-md dark:bg-black">
               {name}
@@ -93,7 +93,7 @@ const SingleBlog: NextPage<Props> = async ({ params }) => {
             Inicio
           </Link>
         </section>
-        <section className="w-[75%] px-12 h-full overflow-auto">
+        <section className="w-full md:w-[75%] md:px-12 h-full overflow-auto">
           <aside
             className="flex justify-between items-center w-full my-4 px-6 pb-40 pt-6 bg-yellow-500 rounded-2xl"
             id="navigation"
@@ -122,7 +122,7 @@ const SingleBlog: NextPage<Props> = async ({ params }) => {
               </Link>
             )}
           </aside>
-          <section className="bg-black dark:bg-white rounded-2xl mx-12 px-16 py-8 relative -top-36">
+          <section className="bg-black dark:bg-white rounded-2xl mx-4 md:mx-12 px-6 md:px-16 md:py-8 relative -top-36">
             {data.attributes.blocks.length === 0 && (
               <div className="flex justify-center items-center h-80">
                 <h2 className="text-xl font-bold text-white dark:text-black">No hay contenido</h2>

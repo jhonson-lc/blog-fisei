@@ -29,8 +29,8 @@ const BlogCard = ({
   publishedAt,
 }: Blog["attributes"]) => {
   return (
-    <article className="py-4 flex w-full gap-6">
-      <div className="relative w-[50%]">
+    <article className="py-4 flex flex-col w-full md:flex-row md:gap-6">
+      <div className="relative md:w-[50%] w-full">
         <Image
           alt={title}
           className="rounded-2xl border-white/10 dark:border-black/10 border-2 mb-2 object-cover"
@@ -59,7 +59,7 @@ const BlogCard = ({
           </svg>
         </Link>
       </div>
-      <div className="justify-between py-4 flex flex-col w-[50%]">
+      <div className="justify-between py-0 px-2 md:px-0 md:py-4 flex flex-col w-full md:w-[50%]">
         <div>
           <span className="text-[10px] font-medium mr-2 py-0.5 rounded text-amber-500">
             {category.data.attributes.name}
@@ -92,38 +92,36 @@ export default async function Home({
 }) {
   const blogsRaw = await getBlogs();
   const blogs = blogsRaw.slice(1);
-  console.log({
-    blogs,
-  });
   const categories: [string] = blogsRaw.map((blog: any) => blog.category.data.attributes.name);
 
   const multipleSearch = (array: [any]) => {
-    if (category) {
-      return array.filter((blog) =>
-        blog.category.data.attributes.name.toLowerCase().includes(category.toLowerCase()),
-      );
-    }
-    if (!search) return array;
-    return array.filter((blog) =>
-      Object.keys(blog).some((parameter) =>
-        blog[parameter].toString().toLowerCase().includes(search.toLowerCase()),
-      ),
+    if (!search && !category) return array;
+    return array.filter(
+      (blog) =>
+        Object.keys(blog).some((parameter) =>
+          blog[parameter]
+            .toString()
+            .toLowerCase()
+            .includes(search?.toLowerCase() || ""),
+        ) &&
+        blog.category.data.attributes.name.toLowerCase().includes(category?.toLowerCase() || ""),
     );
   };
-
   const filteredBlogs: any = multipleSearch(search ? blogsRaw : blogs);
 
   return (
     <PageWrapper>
-      <main className="mt-12 mx-auto max-w-screen-xl">
+      <main className="mt-12 mx-auto max-w-screen-xl px-4">
         <div className="flex relative flex-col dark:border-neutral-700/20 border-white/20 border-b-2 py-6 px-16 mb-6 items-center gap-2">
-          <h2 className="text-9xl font-bold text-neutral-100 dark:text-neutral-900">BLOG</h2>
-          <p className="text-lg uppercase tracking-widest font-semibold text-neutral-100 dark:text-neutral-900">
+          <h2 className="text-5xl md:text-9xl font-bold text-neutral-100 dark:text-neutral-900">
+            BLOG
+          </h2>
+          <p className="text-xs md:text-lg text-center mb-4 md:mb-0 uppercase tracking-widest font-semibold text-neutral-100 dark:text-neutral-900">
             Desarrollo asistido por software
           </p>
-          <section className="absolute bottom-6 right-0">
+          <section className="absolute md:bottom-6 bottom-2 right-0">
             <a
-              className="text-xs border-2 border-white/20 bg-amber-400 text-black dark:border-black/20 rounded-md hover:bg-amber-600 hover:dark:bg-yellow-600/10 font-bold transition-all inline-flex px-2.5 py-1 items-center gap-2"
+              className="text-xs border-2 border-white/20 bg-amber-400 text-black dark:border-black/20 rounded-md hover:bg-amber-500 hover:dark:bg-amber-500 font-bold transition-all inline-flex px-2.5 py-1 items-center gap-2"
               href={`${URL_CLIENT}/admin`}
               referrerPolicy="no-referrer"
               rel="noreferrer"
@@ -134,11 +132,11 @@ export default async function Home({
             </a>
           </section>
         </div>
-        <aside className="w-1/2 mx-auto">
+        <aside className="md:w-1/2 mx-auto">
           <Search />
         </aside>
         <CategoriesNavigation categories={categories} />
-        {!search && (
+        {!search && !category && (
           <section className="flex w-full">
             <BlogCard {...blogsRaw[0]} />
           </section>

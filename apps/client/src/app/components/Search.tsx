@@ -1,9 +1,27 @@
 "use client";
 import React from "react";
-import { useSearchBlog } from "../hooks/useSearchBlog";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createUrl } from "../lib/utils";
 
 const Search: React.FC = () => {
-  const { handleChange, handleSubmit, value } = useSearchBlog();
+  const router = useRouter();
+  const params = useSearchParams();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const val = e.target as HTMLFormElement;
+    const search = val.search as HTMLInputElement;
+    const newSearchParams = new URLSearchParams(params.toString());
+
+    if (search.value) {
+      newSearchParams.set("search", search.value);
+    } else {
+      newSearchParams.delete("search");
+    }
+
+    router.push(createUrl("/", newSearchParams));
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <label
@@ -31,15 +49,16 @@ const Search: React.FC = () => {
           </svg>
         </div>
         <input
+          autoComplete="off"
           className="block w-full p-4 pl-10 text-sm dark:text-gray-900 border dark:border-gray-300 rounded-lg dark:bg-gray-50 bg-gray-950 border-gray-600 placeholder-gray-400 text-white focus:outline-none"
+          defaultValue={params?.get("search") || ""}
           id="default-search"
+          name="search"
           placeholder="Buscar blogs ..."
-          type="search"
-          value={value}
-          onChange={handleChange}
+          type="text"
         />
         <button
-          className="dark:text-white absolute right-2.5 bottom-2.5 dark:bg-yellow-600 dark:hover:bg-yellow-800 focus:ring-4 focus:outline-none dark:focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2 bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-800"
+          className="dark:text-black transition-all absolute right-2.5 bottom-2.5 dark:bg-amber-400 dark:hover:bg-amber-500 focus:ring-4 focus:outline-none dark:focus:ring-amber-300 font-medium rounded-lg text-sm px-4 py-2 bg-amber-400 hover:bg-amber-500 focus:ring-amber-400"
           type="submit"
         >
           Buscar
