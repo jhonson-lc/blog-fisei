@@ -1,22 +1,79 @@
 # Fisei Blog
 
-Descripcion
+## Introduction
+Fisei Blog is a web application developed to serve as a blogging platform. It is built with modern web technologies, including TypeScript, Next.js, and Strapi, ensuring a robust and scalable architecture.
 
-## What's inside?
+## Table of Contents
+- [Introduction](#introduction)
+- [Table of Contents](#table-of-contents)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [Configuration](#configuration)
+- [Documentation](#documentation)
+- [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
+- [Contributors](#contributors)
+- [License](#license)
 
-Este repositorio incluye:
+## Installation
+To install and set up the project locally, follow these steps:
 
-### Apps and Packages
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/jhonson-lc/blog-fisei.git
+    cd blog-fisei
+    ```
 
-- `client`: another [Next.js](https://nextjs.org/) app
-- `server`: a [Strapi](https://strapi.io/) app
+2. Install dependencies:
+    ```sh
+    pnpm install
+    ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+3. Set up environment variables as needed.
 
-### Utilities
+4. Start the development server:
+    ```sh
+    pnpm dev
+    ```
 
-This Turborepo has some additional tools already setup for you:
+## Usage
+To use the Fisei Blog, start the development server and navigate to `http://localhost:3000` for the client application and the respective port for the Strapi server.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## Features
+- **Client Application**: Built with Next.js, providing a fast and SEO-friendly user interface.
+- **Server Application**: Managed by Strapi, offering a customizable and extendable CMS.
+- **TypeScript**: Ensures static type checking across the project.
+- **Code Quality Tools**: Includes ESLint for linting and Prettier for code formatting.
+
+## Dependencies
+- **Next.js**: Framework for the client-side application.
+- **Strapi**: CMS for the server-side application.
+- **TypeScript**: Static type checking.
+- **ESLint**: Code linting.
+- **Prettier**: Code formatting.
+
+## Configuration
+Ensure that you configure the necessary environment variables required by both the Next.js and Strapi applications. Refer to the respective documentation for each framework for detailed configuration options.
+
+## Documentation
+For detailed documentation on how to use and configure each part of the project, refer to the following resources:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Strapi Documentation](https://strapi.io/documentation)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs)
+
+## Examples
+You can find example code and usage scenarios within the `examples` directory of the repository. These examples provide practical use cases and integration methods.
+
+## Troubleshooting
+If you encounter any issues during installation or usage, check the following:
+- Ensure all dependencies are installed correctly.
+- Verify the configuration of environment variables.
+- Refer to the documentation of the tools and frameworks used.
+
+## Contributors
+- **Jhonson LC**: [GitHub Profile](https://github.com/jhonson-lc)
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
